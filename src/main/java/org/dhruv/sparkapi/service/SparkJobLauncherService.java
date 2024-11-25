@@ -10,24 +10,28 @@ import org.apache.spark.launcher.SparkAppHandle.Listener;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
+import org.dhruv.sparkapi.entity.Extract;
 import org.apache.spark.launcher.SparkLauncher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SparkJobLauncherService {
     private Logger log = LoggerFactory.getLogger(SparkJobLauncherService.class);
 
+    @Autowired 
+    private ExtractJobService extractJobService;
 
-    public void sparkSessionTest(){
-        SparkSession sparkSession = SparkSession.builder().master("spark://dhruv-VMware-Virtual-Platform:7077").appName("spark-test").enableHiveSupport().getOrCreate();
-        Dataset<Row> df = sparkSession.sql("select * from default.employee"); 
+    public void sparkSessionTest() {
+        SparkSession sparkSession = SparkSession.builder().master("spark://dhruv-VMware-Virtual-Platform:7077")
+                .appName("spark-test").enableHiveSupport().getOrCreate();
+        Dataset<Row> df = sparkSession.sql("select * from default.employee");
         df.show();
     }
 
-
-    public void commandRunner(){
+    public void commandRunner() {
         ProcessBuilder processBuilder = new ProcessBuilder("ls", "-l");
         processBuilder.directory(new File("/home/dhruv"));
         System.out.println("directory: " + processBuilder.directory());
@@ -48,17 +52,55 @@ public class SparkJobLauncherService {
 
     }
 
-
-
-    public void launchSampleSparkJob(){
+    public void launchSparkJobWithGivenJson(String jsonPath, Extract extract) {
         System.out.println("In spark Application Launcher");
         SparkLauncher sparkLauncher = new SparkLauncher()
-                                    .setAppResource("/home/dhruv/projects/sample-spark-job/sparkjob/target/job.jar")
-                                    .addAppArgs("/home/dhruv")
-                                    .setMainClass("org.dhruv.Main")
-                                    .setMaster("spark://dhruv-VMware-Virtual-Platform:7077")
-                                    .setAppName("thisNameOrThatName");
-                                
+                .setAppResource("/home/dhruv/projects/sample-spark-job/sparkjob/target/jobj.jar")
+                .setConf("spark.driver.extraClassPath",
+                        "/home/dhruv/Downloads/gson-2.10.jar:/opt/spark/jars/gson-2.2.4.jar")
+                .addJar("/home/dhruv/Downloads/gson-2.10.jar")
+                .addJar("/home/dhruv/projects/sample-spark-job/spark-xml_2.12-0.18.0.jar")
+                .addAppArgs(jsonPath)
+                .setMainClass("org.dhruv.Main")
+                .setMaster("spark://dhruv-VMware-Virtual-Platform:7077")
+                .setAppName("will-be-chosen-from-extract");
+
+        try {
+            SparkAppHandle launcherHandle = sparkLauncher.startApplication();
+            launcherHandle.addListener((Listener) new Listener() {
+
+                @Override
+                public void stateChanged(SparkAppHandle handle) {
+                    String state = launcherHandle.getState().toString();
+                    System.out.println("state changed to: " + state);
+                    extractJobService.updateJobStatusById(extract, state);
+                }
+
+                @Override
+                public void infoChanged(SparkAppHandle handle) {
+                    System.out.println("Info changed: " + handle.getState());
+                }
+
+            });
+        } catch (IOException e) {
+            log.error("Application failed");
+            e.printStackTrace();
+        }
+
+    }
+
+    public void launchSampleSparkJob() {
+        System.out.println("In spark Application Launcher");
+        SparkLauncher sparkLauncher = new SparkLauncher()
+                .setAppResource("/home/dhruv/projects/sample-spark-job/sparkjob/target/jobj.jar")
+                .setConf("spark.driver.extraClassPath",
+                        "/home/dhruv/Downloads/gson-2.10.jar:/opt/spark/jars/gson-2.2.4.jar")
+                .addJar("/home/dhruv/Downloads/gson-2.10.jar")
+                .addAppArgs("/home/dhruv/projects/sample-spark-job/data/test-json/test.json")
+                .setMainClass("org.dhruv.Main")
+                .setMaster("spark://dhruv-VMware-Virtual-Platform:7077")
+                .setAppName("will-be-chosen-from-extract");
+
         try {
             SparkAppHandle launcherHandle = sparkLauncher.startApplication();
             launcherHandle.addListener((Listener) new Listener() {
@@ -72,11 +114,11 @@ public class SparkJobLauncherService {
                 public void infoChanged(SparkAppHandle handle) {
                     System.out.println("Info changed: " + handle.getState());
                 }
-                
+
             });
         } catch (IOException e) {
             log.error("Application failed");
             e.printStackTrace();
-        }  
-    }    
+        }
+    }
 }

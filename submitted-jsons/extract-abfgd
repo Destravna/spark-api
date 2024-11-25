@@ -1,0 +1,1 @@
+{"extractName":"extract-abfgd","model":"listed","attributes":{"allAttributes":"false","attributesList":[{"TradeDirection":{"alias":"trdiir","condition":""}},{"redid":{"alias":"rid","condition":""}}]},"dateFrom":"2024-11-01","dateTo":"2024-11-14","outputFormat":"xml","outputPath":"/home/dhruv/projects/sample-spark-job/output","deliveryFormat":""}

@@ -1,0 +1,1 @@
+{"extractName":"ex1234","model":"listed","attributes":{"allAttributes":"false","attributesList":[{"TradeDirection":{"alias":"ttd","condition":""}},{"IsDestroyed":{"alias":"isd","condition":""}}]},"dateFrom":"2024-11-01","dateTo":"2024-11-10","outputFormat":"xml","outputPath":"/home/dhruv/projects/sample-spark-job/output","deliveryFormat":""}

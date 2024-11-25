@@ -1,0 +1,22 @@
+{
+    "extractName": "elts-9d",
+    "model": "listed",
+    "attributes": {
+        "allAttributes": "false",
+        "attributesList": {
+            "TradeDirection": {
+                "alias": "buyOrSell",
+                "condition": ""
+            },
+            "tradeType": {
+                "alias": "type",
+                "condition": ""
+            }
+        }
+    },
+    "dateFrom": "2024-11-01",
+    "dateTo": "2024-11-10",
+    "outputFormat": "xml",
+    "outputPath": "/home/dhruv",
+    "deliveryFormat": ""
+}

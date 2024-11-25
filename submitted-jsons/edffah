@@ -1,0 +1,1 @@
+{"extractName":"edffah","model":"listed","attributes":{"allAttributes":"false","attributesList":{"TradeDirection":{"alias":"td","condition":""},"tradeType":{"alias":"tt","condition":""},"tradeDate":{"alias":"dftdd","condition":""}}},"dateFrom":"2024-11-01","dateTo":"2024-11-11","outputFormat":"xml","outputPath":"/home/dhruv/projects/sample-spark-job/output","deliveryFormat":""}
