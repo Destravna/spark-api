@@ -74,6 +74,9 @@ public class SparkJobLauncherService {
                     String state = launcherHandle.getState().toString();
                     System.out.println("state changed to: " + state);
                     extractJobService.updateJobStatusById(extract, state);
+                    if(state.equals("FINISHED")){
+                        extractJobService.updateJobFileLocationById(extract);
+                    }
                 }
 
                 @Override

@@ -1,0 +1,1 @@
+{"extractName":"listed-extract-file","model":"listed","attributes":{"allAttributes":"false","attributesList":[{"product":{"alias":"","condition":""}},{"comment":{"alias":"","condition":""}}]},"dateFrom":"2024-11-01","dateTo":"2024-11-05","outputFormat":"xml","outputPath":"/home/dhruv/projects/sample-spark-job/output","deliveryFormat":""}

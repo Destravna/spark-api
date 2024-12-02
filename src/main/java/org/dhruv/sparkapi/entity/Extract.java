@@ -23,6 +23,9 @@ public class Extract {
     @Column(name = "extract_status", nullable = false)
     private String extractStatus;
 
+    @Column(name = "file", nullable = true)
+    private String file;
+
     public Extract(){
 
     }
@@ -63,6 +66,14 @@ public class Extract {
 
     public void setExtractStatus(String status){
         this.extractStatus = status;
+    }
+
+    public String getFile() {
+        return file;
+    }
+
+    public void setFile(String file) {
+        this.file = file;
     }
 
     

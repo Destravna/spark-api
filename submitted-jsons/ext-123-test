@@ -1,0 +1,32 @@
+{
+  "extractName": "ext-123-test",
+  "model": "listed",
+  "attributes": {
+    "allAttributes": "false",
+    "attributesList": [
+      {
+        "IsDestroyed": {
+          "alias": "isd",
+          "condition": ""
+        }
+      },
+      {
+        "tradeType": {
+          "alias": "type",
+          "condition": ""
+        }
+      },
+      {
+        "tradeld": {
+          "alias": "id",
+          "condition": ""
+        }
+      }
+    ]
+  },
+  "dateFrom": "2024-11-01",
+  "dateTo": "2024-11-10",
+  "outputFormat": "xml",
+  "outputPath": "/home/dhruv/projects/sample-spark-job/output",
+  "deliveryFormat": ""
+}

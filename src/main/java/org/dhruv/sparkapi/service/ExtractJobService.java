@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -32,6 +34,15 @@ public class ExtractJobService {
 
     public List<Extract> getAllJobs(){
         return extractJobRepo.findAllByOrderByJobIdDesc();
+    }
+
+    public void updateJobFileLocationById(Extract extractJob ){
+        Extract existingExtractJob = extractJobRepo.findById(extractJob.getJobId())
+        .orElseThrow(() -> new IllegalArgumentException("Extract not found with ID: " + extractJob.getJobId())); 
+        existingExtractJob.setFile("http://localhost:9870/explorer.html#/home/dhruv/projects/sample-spark-job/output" + "_" + extractJob.getExtractName() + "_" + LocalDate.now().toString());  
+        Extract extractWithFile = extractJobRepo.save(existingExtractJob);
+        logger.info("Extract file location saved : {}", extractWithFile);
+
     }
     
 }
